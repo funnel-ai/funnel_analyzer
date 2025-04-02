@@ -215,7 +215,7 @@ class CrawlerConfig(BaseModel):
                 return [cls._ensure_scheme(url) for url in v if isinstance(url, str)]
             return v # Pass through if already correct type or not string/list
     else: # Pydantic v1 validator
-        @validator('start_url', 'manual_urls', pre=True, each_item=True)
+        @validator('start_url', 'manual_urls', pre=True, each_item=True, allow_reuse=True)
         def validate_urls_v1(cls, v):
             if isinstance(v, str):
                 return cls._ensure_scheme(v)
