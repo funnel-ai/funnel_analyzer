@@ -52,6 +52,7 @@ except ImportError:
 
 
 # --- Logging Configuration ---
+# --- Logging Configuration ---
 log_formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
 log_stream_handler = logging.StreamHandler() # Log to console/Streamlit log
 log_stream_handler.setFormatter(log_formatter)
@@ -64,12 +65,12 @@ try:
     log_file_handler = logging.FileHandler(log_file_path, mode='a', encoding='utf-8')
     log_file_handler.setFormatter(log_formatter)
 except (PermissionError, OSError) as log_err: # Catch OSError too for path issues
-     st.sidebar.error(f"Failed to create local log file ({log_file_path}): {log_err}. Logging to console only.", icon="🔥")
-     log_file_handler = None # Ensure it's None if failed
+    st.sidebar.error(f"Failed to create local log file ({log_file_path}): {log_err}. Logging to console only.", icon="🔥")
+    log_file_handler = None # Ensure it's None if failed
 
 handlers_list = [log_stream_handler]
 if log_file_handler:
-     handlers_list.append(log_file_handler)
+    handlers_list.append(log_file_handler)
 
 # Configure root logger
 logging.basicConfig(
