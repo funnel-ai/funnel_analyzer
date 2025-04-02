@@ -3092,4 +3092,3 @@ if log_file_handler and log_file_path.exists() and log_file_path.stat().st_size 
                     )
           except Exception as e:
                st.warning(f"Could not read log file for download: {e}")
-```
