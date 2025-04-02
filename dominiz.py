@@ -2367,7 +2367,7 @@ if start_button:
             # Use the validator within the config model itself for consistency
             # Need to temporarily create a config instance or just the validator logic
             validated_start_url = CrawlerConfig._ensure_scheme(url_to_analyze) # Ensure scheme
-            AnyHttpUrl.validate(validated_start_url) # Pydantic validation
+            from pydantic import BaseModel, AnyHttpUrl  class URLModel(BaseModel):     url: AnyHttpUrl  validated_url = URLModel(url=validated_start_url).url  # استخدم الكود المعدل هنا # Pydantic validation
         except (ValidationError, ValueError) as e:
             validation_errors.append(f"Invalid Starting URL: {url_to_analyze}. Please enter a valid URL (e.g., https://example.com). Error: {e}")
 
