@@ -2420,24 +2420,24 @@ if start_button:
         validation_errors.append("Starting URL is required.")
     else:
         try:
-        # Call the function to get the URL, ensuring the scheme is present
-        temp_url = CrawlerConfig._ensure_scheme(url_to_analyze)
+            # Call the function to get the URL, ensuring the scheme is present
+            temp_url = CrawlerConfig._ensure_scheme(url_to_analyze)
 
-        # -->> Add check here <<--
-        if isinstance(temp_url, str):
-            # If the returned value is a string, proceed to validate it as a URL
-            validated_start_url = temp_url # Assign it back if needed, or use temp_url directly
-            AnyHttpUrl(validated_start_url) # Pydantic validation
-            # You can add any subsequent code that uses validated_start_url here
-        else:
-            # If it's not a string (it might be None or another type), raise an error
-            # This indicates that _ensure_scheme couldn't produce a valid string URL
-            raise ValueError(f"Could not process the input URL: '{url_to_analyze}'. The result after ensuring scheme was not a string (maybe None or invalid input?).")
+            # -->> Add check here <<--
+            if isinstance(temp_url, str):
+                # If the returned value is a string, proceed to validate it as a URL
+                validated_start_url = temp_url  # Assign it back if needed, or use temp_url directly
+                AnyHttpUrl(validated_start_url)  # Pydantic validation
+                # You can add any subsequent code that uses validated_start_url here
+            else:
+                # If it's not a string (it might be None or another type), raise an error
+                # This indicates that _ensure_scheme couldn't produce a valid string URL
+                raise ValueError(f"Could not process the input URL: '{url_to_analyze}'. The result after ensuring scheme was not a string (maybe None or invalid input?).")
 
-    except (ValidationError, ValueError) as e:
-        # Catch errors from Pydantic validation (ValidationError)
-        # or the ValueError raised above if the input wasn't a string
-        validation_errors.append(f"Invalid or unprocessable Starting URL: '{url_to_analyze}'. Please enter a valid URL (e.g., https://example.com). Error: {e}")
+        except (ValidationError, ValueError) as e:
+            # Catch errors from Pydantic validation (ValidationError)
+            # or the ValueError raised above if the input wasn't a string
+            validation_errors.append(f"Invalid or unprocessable Starting URL: '{url_to_analyze}'. Please enter a valid URL (e.g., https://example.com). Error: {e}")
     # Note: A TypeError should now be less likely to reach here because of the isinstance check,
     # but you could add 'TypeError' to the except clause as an extra safeguard if desired.
     # except TypeError as e:
@@ -2446,38 +2446,40 @@ if start_button:
     for i, manual_url in enumerate(manual_urls_raw):
         manual_url = manual_url.strip()
         if manual_url:
-             try:
-                 validated_manual_url = CrawlerConfig._ensure_scheme(manual_url)
-                 manual_urls_validated.append(AnyHttpUrl(validated_manual_url))
-             except (ValidationError, ValueError) as e:
-                 validation_errors.append(f"Invalid Manual URL (Line {i+1}): {manual_url[:60]}... Error: {e}")
+            try:
+                validated_manual_url = CrawlerConfig._ensure_scheme(manual_url)
+                manual_urls_validated.append(AnyHttpUrl(validated_manual_url))
+            except (ValidationError, ValueError) as e:
+                validation_errors.append(f"Invalid Manual URL (Line {i+1}): {manual_url[:60]}... Error: {e}")
 
     if validation_errors:
-        for error in validation_errors: st.error(error, icon="🚨")
-        st.session_state.running = False # Ensure running is false if validation fails
+        for error in validation_errors: 
+            st.error(error, icon="🚨")
+        st.session_state.running = False  # Ensure running is false if validation fails
     else:
         # --- Configuration and Run ---
         st.session_state.running = True
-        st.session_state.results = None # Clear previous results
+        st.session_state.results = None  # Clear previous results
         st.session_state.progress_processed = 0
         st.session_state.progress_fetched = 0
-        st.session_state.progress_total = cfg_values['max_pages'] # Use current config value
+        st.session_state.progress_total = cfg_values['max_pages']  # Use current config value
         st.session_state.progress_status = "Initializing..."
         st.session_state.queue_size = 0
 
         # Set Logging Level based on UI checkbox
         log_level = logging.DEBUG if cfg_values['debug_logging'] else logging.INFO
-        logging.getLogger("funnel_analyzer_elite").setLevel(log_level) # Target specific logger
+        logging.getLogger("funnel_analyzer_elite").setLevel(log_level)  # Target specific logger
         # Set level for root logger handlers too? Might affect library logs.
-        for handler in logging.getLogger("funnel_analyzer_elite").handlers: handler.setLevel(log_level)
+        for handler in logging.getLogger("funnel_analyzer_elite").handlers: 
+            handler.setLevel(log_level)
         logger.info(f"Log level set to {logging.getLevelName(log_level)}")
 
         # Prepare Config Object
         try:
             # Pass validated URLs to the config model
             config = CrawlerConfig(
-                start_url=url_to_analyze, # Pass original (validated) string, model re-validates
-                manual_urls=[str(url) for url in manual_urls_validated], # Pass as strings
+                start_url=url_to_analyze,  # Pass original (validated) string, model re-validates
+                manual_urls=[str(url) for url in manual_urls_validated],  # Pass as strings
                 max_pages=cfg_values['max_pages'],
                 concurrent_requests=cfg_values['concurrent_requests'],
                 request_delay=cfg_values['request_delay'],
@@ -2499,28 +2501,28 @@ if start_button:
             st.rerun()
 
         except ValidationError as config_err:
-             st.error(f"Configuration Error: {config_err}", icon="🔥")
-             logger.error(f"Pydantic config validation failed on start: {config_err}")
-             st.session_state.running = False
-             st.session_state.progress_status = "Config Error"
-             st.rerun() # Rerun to show error and reset button state
+            st.error(f"Configuration Error: {config_err}", icon="🔥")
+            logger.error(f"Pydantic config validation failed on start: {config_err}")
+            st.session_state.running = False
+            st.session_state.progress_status = "Config Error"
+            st.rerun()  # Rerun to show error and reset button state
 
 # --- Run Analysis if Flagged ---
 # This block runs *after* the rerun caused by clicking "Start Analysis" AND validation passing
 if st.session_state.running and st.session_state.results is None and st.session_state.progress_status != "Config Error":
-    cfg_values = st.session_state.crawl_config_values # Get config from state
-    analysis_results = None # Initialize
+    cfg_values = st.session_state.crawl_config_values  # Get config from state
+    analysis_results = None  # Initialize
     try:
         # Re-validate and create config object to pass to async function
         # (Ensures consistency if state somehow changed between reruns)
         manual_urls_validated = []
         for url_str in cfg_values['manual_urls_text'].splitlines():
-             url_str = url_str.strip()
-             if url_str:
-                 try:
-                      validated_manual_url = CrawlerConfig._ensure_scheme(url_str)
-                      manual_urls_validated.append(AnyHttpUrl(validated_manual_url))
-                 except (ValidationError, ValueError): pass # Ignore invalid ones here, validated before
+            url_str = url_str.strip()
+            if url_str:
+                try:
+                    validated_manual_url = CrawlerConfig._ensure_scheme(url_str)
+                    manual_urls_validated.append(AnyHttpUrl(validated_manual_url))
+                except (ValidationError, ValueError): pass  # Ignore invalid ones here, validated before
 
         config = CrawlerConfig(
             start_url=cfg_values['start_url'],
@@ -2540,23 +2542,23 @@ if st.session_state.running and st.session_state.results is None and st.session_
         # Streamlit now handles top-level await, but running via asyncio.run is safer for compatibility
         # Need to get or create an event loop for Streamlit context
         try:
-             loop = asyncio.get_running_loop()
+            loop = asyncio.get_running_loop()
         except RuntimeError:
-             loop = asyncio.new_event_loop()
-             asyncio.set_event_loop(loop)
+            loop = asyncio.new_event_loop()
+            asyncio.set_event_loop(loop)
 
         analysis_results = loop.run_until_complete(run_full_analysis(config, progress_placeholder, status_placeholder))
 
         # Update state after completion/failure
         st.session_state.running = False
-        st.session_state.results = analysis_results # Store results or None if failed
+        st.session_state.results = analysis_results  # Store results or None if failed
 
         if analysis_results:
             st.success("Analysis complete!", icon="✅")
         else:
             # Error message handled within run_full_analysis or caught exception below
-             if st.session_state.progress_status != "Config Error" and "Error" not in st.session_state.progress_status and "Failed" not in st.session_state.progress_status:
-                  st.warning("Analysis finished, but no results were generated. Check logs.", icon = "⚠️")
+            if st.session_state.progress_status != "Config Error" and "Error" not in st.session_state.progress_status and "Failed" not in st.session_state.progress_status:
+                st.warning("Analysis finished, but no results were generated. Check logs.", icon = "⚠️")
 
 
         # Final rerun to display results or final error state
@@ -2566,7 +2568,7 @@ if st.session_state.running and st.session_state.results is None and st.session_
         st.error(f"Failed to start or complete analysis: {run_err}", icon="🔥")
         logger.exception(f"Error recreating config or running analysis task: {run_err}")
         st.session_state.running = False
-        st.session_state.results = None # Ensure no partial results are shown
+        st.session_state.results = None  # Ensure no partial results are shown
         st.session_state.progress_status = f"Runtime Error: {run_err}"
         st.rerun()
 
@@ -2583,20 +2585,20 @@ if st.session_state.results:
     page_variations = results_data.get("page_variations", {})
     potential_flows = results_data.get("potential_flows", [])
     summary_stats = results_data.get("summary_stats", {})
-    discovery_log = results_data.get("discovery_log", {}) # Get discovery log from results
+    discovery_log = results_data.get("discovery_log", {})  # Get discovery log from results
 
     # Use start URL from config stored in session state for filename consistency
     start_url_for_file = st.session_state.crawl_config_values['start_url']
     try:
-         # Generate a clean prefix from the start URL's domain/path
-         validated_url_for_file = CrawlerConfig._ensure_scheme(start_url_for_file)
-         parsed_start = urlparse(validated_url_for_file)
-         file_prefix = f"{parsed_start.netloc.replace(':', '_')}{parsed_start.path.replace('/', '_')}".rstrip('_')
-         # Limit length for safety
-         file_prefix = re.sub(r'[^\w\-.]', '_', file_prefix)[:50] # Keep word chars, hyphen, dot
+        # Generate a clean prefix from the start URL's domain/path
+        validated_url_for_file = CrawlerConfig._ensure_scheme(start_url_for_file)
+        parsed_start = urlparse(validated_url_for_file)
+        file_prefix = f"{parsed_start.netloc.replace(':', '_')}{parsed_start.path.replace('/', '_')}".rstrip('_')
+        # Limit length for safety
+        file_prefix = re.sub(r'[^\w\-.]', '_', file_prefix)[:50]  # Keep word chars, hyphen, dot
     except Exception as file_parse_err:
-         logger.warning(f"Could not parse start URL for file prefix: {file_parse_err}")
-         file_prefix = "funnel_analysis" # Fallback
+        logger.warning(f"Could not parse start URL for file prefix: {file_parse_err}")
+        file_prefix = "funnel_analysis"  # Fallback
 
     st.subheader("Crawl Summary")
     col1, col2, col3, col4 = st.columns(4)
@@ -2607,10 +2609,10 @@ if st.session_state.results:
 
     # Optional: Display discovery stats
     with st.expander("Discovery Statistics"):
-         st.metric("Sitemap URLs Added", summary_stats.get('sitemap_urls', 0))
-         st.metric("Guessed URLs Added", summary_stats.get('guessed_urls', 0))
-         st.metric("JavaScript URLs Added", summary_stats.get('js_urls', 0))
-         st.metric("Total URLs Processed", summary_stats.get('processed', 0))
+        st.metric("Sitemap URLs Added", summary_stats.get('sitemap_urls', 0))
+        st.metric("Guessed URLs Added", summary_stats.get('guessed_urls', 0))
+        st.metric("JavaScript URLs Added", summary_stats.get('js_urls', 0))
+        st.metric("Total URLs Processed", summary_stats.get('processed', 0))
 
 
     tab_pages, tab_links, tab_flows, tab_variations = st.tabs([
@@ -2627,8 +2629,8 @@ if st.session_state.results:
             st.dataframe(df_pages, use_container_width=True, height=400)
             csv_pages = convert_df_to_csv(df_pages)
             if csv_pages:
-                 st.download_button(label="Download Page Details (CSV)", data=csv_pages,
-                                    file_name=f"page_details_{file_prefix}.csv", mime="text/csv")
+                st.download_button(label="Download Page Details (CSV)", data=csv_pages,
+                                  file_name=f"page_details_{file_prefix}.csv", mime="text/csv")
             else: st.warning("Could not generate CSV for Page Details.")
         else: st.info("No page data available.")
 
@@ -2639,8 +2641,8 @@ if st.session_state.results:
             st.dataframe(df_links, use_container_width=True, height=400)
             csv_links = convert_df_to_csv(df_links)
             if csv_links:
-                 st.download_button(label="Download Page Links (CSV)", data=csv_links,
-                                    file_name=f"page_links_{file_prefix}.csv", mime="text/csv")
+                st.download_button(label="Download Page Links (CSV)", data=csv_links,
+                                  file_name=f"page_links_{file_prefix}.csv", mime="text/csv")
             else: st.warning("Could not generate CSV for Page Links.")
         else: st.info("No internal link data available (or no links found between crawled pages).")
 
@@ -2649,39 +2651,39 @@ if st.session_state.results:
         if potential_flows:
             formatted_flows = format_funnel_flows(potential_flows)
             if formatted_flows and isinstance(formatted_flows[0], tuple):
-                 # Display flows in expanders
-                 for header, details in formatted_flows:
-                      with st.expander(header):
-                           st.markdown(details, unsafe_allow_html=False) # Keep unsafe_allow_html=False
+                # Display flows in expanders
+                for header, details in formatted_flows:
+                    with st.expander(header):
+                        st.markdown(details, unsafe_allow_html=False)  # Keep unsafe_allow_html=False
 
-                 # Prepare DataFrame for download
-                 flow_rows = []
-                 for i, flow in enumerate(potential_flows):
-                     for j, (url, classifications) in enumerate(flow):
-                          class_str = ", ".join(sorted(map(str, classifications)))
-                          flow_rows.append({"Flow Number": i+1, "Step": j+1, "URL": url, "Classifications": class_str})
-                 if flow_rows:
-                      df_flows = pd.DataFrame(flow_rows)
-                      csv_flows = convert_df_to_csv(df_flows)
-                      if csv_flows:
-                           st.download_button(label="Download Funnel Flows (CSV)", data=csv_flows,
-                                             file_name=f"funnel_flows_{file_prefix}.csv", mime="text/csv")
-                      else: st.warning("Could not generate CSV for Funnel Flows.")
-                 else: st.info("Flow data found but could not be formatted for download.")
+                # Prepare DataFrame for download
+                flow_rows = []
+                for i, flow in enumerate(potential_flows):
+                    for j, (url, classifications) in enumerate(flow):
+                        class_str = ", ".join(sorted(map(str, classifications)))
+                        flow_rows.append({"Flow Number": i+1, "Step": j+1, "URL": url, "Classifications": class_str})
+                if flow_rows:
+                    df_flows = pd.DataFrame(flow_rows)
+                    csv_flows = convert_df_to_csv(df_flows)
+                    if csv_flows:
+                        st.download_button(label="Download Funnel Flows (CSV)", data=csv_flows,
+                                          file_name=f"funnel_flows_{file_prefix}.csv", mime="text/csv")
+                    else: st.warning("Could not generate CSV for Funnel Flows.")
+                else: st.info("Flow data found but could not be formatted for download.")
             else:
-                  st.info(formatted_flows[0]) # Display "No flows identified" message
+                st.info(formatted_flows[0])  # Display "No flows identified" message
         else: st.info("No potential funnel flows identified.")
 
     with tab_variations:
         st.subheader("Page URL Variations")
         st.markdown("Shows different URLs found during the crawl that ultimately led to the same canonical page content (after removing tracking parameters, normalizing paths, etc.). Useful for identifying duplicate content sources.")
         if page_variations:
-            df_variations = prepare_page_variations_df(page_variations, page_data, discovery_log) # Pass discovery_log
+            df_variations = prepare_page_variations_df(page_variations, page_data, discovery_log)  # Pass discovery_log
             st.dataframe(df_variations, use_container_width=True, height=400)
             csv_variations = convert_df_to_csv(df_variations)
             if csv_variations:
-                 st.download_button(label="Download Page Variations (CSV)", data=csv_variations,
-                                    file_name=f"page_variations_{file_prefix}.csv", mime="text/csv")
+                st.download_button(label="Download Page Variations (CSV)", data=csv_variations,
+                                  file_name=f"page_variations_{file_prefix}.csv", mime="text/csv")
             else: st.warning("Could not generate CSV for Page Variations.")
         else: st.info("No page variations recorded (or only canonical URLs were found).")
 
