@@ -2428,7 +2428,7 @@ if start_button:
                 # If the returned value is a string, proceed to validate it as a URL
                 validated_start_url = temp_url  # Assign it back if needed, or use temp_url directly
                 
-                # Pydantic validation using AnyHttpUrl parse_obj/parse_raw method
+                # Pydantic validation using appropriate method based on version
                 # Use different approach depending on Pydantic version
                 if PYDANTIC_V2:
                     # For Pydantic v2
@@ -2436,8 +2436,8 @@ if start_button:
                     url_validator = TypeAdapter(AnyHttpUrl)
                     url_validator.validate_python(validated_start_url)
                 else:
-                    # For Pydantic v1
-                    AnyHttpUrl.validate(validated_start_url)
+                    # For Pydantic v1 - use constructor to validate
+                    AnyHttpUrl(url=validated_start_url)
                 # You can add any subsequent code that uses validated_start_url here
             else:
                 # If it's not a string (it might be None or another type), raise an error
@@ -2467,8 +2467,8 @@ if start_button:
                     validated_url = url_validator.validate_python(validated_manual_url)
                     manual_urls_validated.append(validated_url)
                 else:
-                    # For Pydantic v1
-                    validated_url = AnyHttpUrl.validate(validated_manual_url)
+                    # For Pydantic v1 - use constructor to validate
+                    validated_url = AnyHttpUrl(url=validated_manual_url)
                     manual_urls_validated.append(validated_url)
             except (ValidationError, ValueError) as e:
                 validation_errors.append(f"Invalid Manual URL (Line {i+1}): {manual_url[:60]}... Error: {e}")
@@ -2551,8 +2551,8 @@ if st.session_state.running and st.session_state.results is None and st.session_
                         validated_url = url_validator.validate_python(validated_manual_url)
                         manual_urls_validated.append(validated_url)
                     else:
-                        # For Pydantic v1
-                        validated_url = AnyHttpUrl.validate(validated_manual_url)
+                        # For Pydantic v1 - use constructor to validate
+                        validated_url = AnyHttpUrl(url=validated_manual_url)
                         manual_urls_validated.append(validated_url)
                 except (ValidationError, ValueError): pass  # Ignore invalid ones here, validated before
 
