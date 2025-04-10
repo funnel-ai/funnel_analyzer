@@ -1,0 +1,137 @@
+2025-04-10 03:23:10,938 - funnel_analyzer_elite - INFO - Log level set to INFO
+2025-04-10 03:23:10,990 - funnel_analyzer_elite - INFO - Starting analysis run with config: {'start_url': AnyHttpUrl('https://www.plrfunnels.com/'), 'manual_urls': [], 'max_pages': 100, 'user_agent': 'SalesFunnelAnalyzer-Elite/3.0 (+https://github.com/your-repo-here)', 'request_delay': 0.8, 'request_delay_jitter': 0.5, 'timeout': 20.0, 'respect_robots_txt': True, 'max_retries': 2, 'concurrent_requests': 5, 'max_redirects': 10, 'page_patterns': {'thank_you': ['thank[-_]?you', '\\bthanks\\b', 'confirmation', 'success', 'order[-_]?complete', 'purchase[-_]?complete', 'receipt', 'order[-_]?received'], 'upsell': ['upsell', 'upgrade', 'special[-_]?offer', 'one[-_]?time[-_]?offer', '\\boto\\d?\\b', '/oto\\b', 'bump', 'addons?', 'add[-_]?ons?', 'cross[-_]?sell', 'next[-_]?step', 'continue'], 'downsell': ['downsell', 'down[-_]?sell', 'alternative[-_]?offer', 'discount[-_]?offer', 'special[-_]?discount', 'second[-_]?chance', 'no[-_]?thanks'], 'checkout': ['checkout', 'payment', 'billing', 'order[-_]?form', '\\bcart\\b', 'secure[-_]?checkout', 'purchase', 'buy[-_]?now', 'complete[-_]?order', 'submit[-_]?order'], 'lead_capture': ['opt[-_]?in', 'subscribe', 'sign[-_]?up', 'register', 'join', 'lead[-_]?magnet', 'free[-_]?(?:book|guide|report|webinar|training|download|gift|trial)'], 'webinar': ['webinar', 'training', 'workshop', 'masterclass', '\\bclass\\b', 'live[-_]?event', 'registration', 'webcast'], 'members_area': ['members?', 'login', 'dashboard', 'account', 'portal', 'my[-_]?account', 'customer[-_]?area', 'signin'], 'hidden_indicators': ['private', 'secret', 'hidden', 'exclusive', 'vip', 'internal', 'unlisted', 'restricted', 'unpublished', 'preview', 'backdoor'], 'payment_form_indicators': ['credit card', 'card number', 'expiration date', 'cvv', 'cvc', 'billing address', 'payment information', 'secure payment', 'stripe', 'paypal', 'zip code', 'postal code'], 'price_patterns': ['\\$\\s?\\d+(?:[,.]\\d{2,3})*(?:\\.\\d{2})?', '\\d+\\s*(?:dollars|usd|eur|gbp|cad|aud)\\b', '\\b(?:price|cost|fee|total|amount)\\s*[:=\\-]?\\s*\\$?\\s?\\d+', '\\b(?:add to cart|buy now|purchase|order now|checkout|get access|enroll)\\b']}, 'find_sitemaps': True, 'attempt_url_guessing': True, 'analyze_javascript': True, 'max_guessed_urls_per_page': 15}
+2025-04-10 03:23:11,049 - funnel_analyzer_elite - INFO - Regex patterns compiled for URL and content classification.
+2025-04-10 03:23:11,063 - funnel_analyzer_elite - INFO - Starting ELITE crawl for https://www.plrfunnels.com/ (Max pages: 100)
+2025-04-10 03:23:11,063 - funnel_analyzer_elite - INFO - Domain Info: {'registered_domain': 'plrfunnels.com', 'subdomain': 'www', 'domain': 'plrfunnels', 'suffix': 'com', 'netloc': 'www.plrfunnels.com', 'scheme': 'https'}
+2025-04-10 03:23:11,063 - funnel_analyzer_elite - INFO - Discovery Options: Sitemaps=True, Guessing=True, JS_Analyze=True
+2025-04-10 03:23:11,064 - funnel_analyzer_elite - INFO - Enqueuing start URL: https://www.plrfunnels.com/
+2025-04-10 03:23:11,065 - funnel_analyzer_elite - INFO - Attempting sitemap discovery...
+2025-04-10 03:23:11,065 - funnel_analyzer_elite - INFO - Attempting to fetch robots.txt from https://www.plrfunnels.com/robots.txt
+2025-04-10 03:23:11,580 - funnel_analyzer_elite - INFO - Successfully parsed robots.txt for www.plrfunnels.com from https://www.plrfunnels.com/robots.txt
+2025-04-10 03:23:11,581 - funnel_analyzer_elite - INFO - Found sitemap directives in robots.txt: ['https://www.plrfunnels.com/sitemap.xml']
+2025-04-10 03:23:11,581 - funnel_analyzer_elite - INFO - Potential sitemap locations to check: {'https://www.plrfunnels.com/sitemap.xml'}
+2025-04-10 03:23:11,582 - funnel_analyzer_elite - INFO - Running 1 sitemap discovery tasks...
+2025-04-10 03:23:11,583 - funnel_analyzer_elite - INFO - Fetching sitemap: https://www.plrfunnels.com/sitemap.xml
+2025-04-10 03:23:11,792 - funnel_analyzer_elite - INFO - Processed sitemap https://www.plrfunnels.com/sitemap.xml: Found 15 URLs, 0 sub-sitemaps.
+2025-04-10 03:23:11,792 - funnel_analyzer_elite - INFO - Initial sitemap discovery tasks complete.
+2025-04-10 03:23:11,792 - funnel_analyzer_elite - INFO - Initial queue size after discovery: 2
+2025-04-10 03:23:11,794 - funnel_analyzer_elite - INFO - Worker-1 started.
+2025-04-10 03:23:11,795 - funnel_analyzer_elite - INFO - Worker-2 started.
+2025-04-10 03:23:11,797 - funnel_analyzer_elite - INFO - Worker-3 started.
+2025-04-10 03:23:11,798 - funnel_analyzer_elite - INFO - Worker-4 started.
+2025-04-10 03:23:11,798 - funnel_analyzer_elite - INFO - Worker-5 started.
+2025-04-10 03:23:13,204 - funnel_analyzer_elite - INFO - JS Analysis (Inline Script): Enqueued 1 URLs found via analysis.
+2025-04-10 03:23:13,301 - funnel_analyzer_elite - INFO - JS Analysis (https://www.plrfunnels.com/assets/projects/user_pages/countdown-v1-XADNTNDC.js): Enqueued 1 URLs found via analysis.
+2025-04-10 03:23:13,410 - funnel_analyzer_elite - INFO - JS Analysis (https://www.plrfunnels.com/assets/projects/user_pages/user_pages-X6MWH3H2.js): Enqueued 16 URLs found via analysis.
+2025-04-10 03:23:13,412 - funnel_analyzer_elite - INFO - Processed (5/100) ✅ [200] https://www.plrfunnels.com/plr-register (1.61s) -> Content Webinar, Content Checkout, Lead Capture, Content Upsell, Content Downsell, Content Members Area, Content Lead Capture
+2025-04-10 03:23:14,073 - funnel_analyzer_elite - INFO - JS Analysis (Inline Script): Enqueued 1 URLs found via analysis.
+2025-04-10 03:23:14,173 - funnel_analyzer_elite - INFO - JS Analysis (https://www.plrfunnels.com/assets/projects/user_pages/user_pages-X6MWH3H2.js): Enqueued 16 URLs found via analysis.
+2025-04-10 03:23:14,289 - funnel_analyzer_elite - INFO - JS Analysis (https://www.plrfunnels.com/assets/projects/user_pages/countdown-v1-XADNTNDC.js): Enqueued 1 URLs found via analysis.
+2025-04-10 03:23:14,295 - funnel_analyzer_elite - INFO - Processed (6/100) ✅ [200] https://www.plrfunnels.com/plr-register (2.50s) -> Content Webinar, Content Checkout, Lead Capture, Content Upsell, Content Downsell, Content Members Area, Content Lead Capture (Redirected from: https://www.plrfunnels.com/)
+2025-04-10 03:23:14,695 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/called. No retries.
+2025-04-10 03:23:14,695 - funnel_analyzer_elite - INFO - Processed (7/100) ❌ [404] https://www.plrfunnels.com/called (1.49s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:14,863 - funnel_analyzer_elite - INFO - Redirected out of scope to: https://www.clickfunnels.com/events
+2025-04-10 03:23:14,863 - funnel_analyzer_elite - INFO - Processed (8/100) ❌ [302] https://www.clickfunnels.com/events (1.45s) -> Error (Error: Redirected out of scope to https://www.clickfunnels.com/events) (Redirected from: https://www.plrfunnels.com/events)
+2025-04-10 03:23:15,036 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/countdown/v1. No retries.
+2025-04-10 03:23:15,036 - funnel_analyzer_elite - INFO - Processed (9/100) ❌ [404] https://www.plrfunnels.com/countdown/v1 (1.73s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/Countdown/V1)
+2025-04-10 03:23:15,372 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/_tracking. No retries.
+2025-04-10 03:23:15,373 - funnel_analyzer_elite - INFO - Processed (10/100) ❌ [404] https://www.plrfunnels.com/_tracking (1.07s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:15,846 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/button/v1. No retries.
+2025-04-10 03:23:15,847 - funnel_analyzer_elite - INFO - Processed (11/100) ❌ [404] https://www.plrfunnels.com/button/v1 (2.43s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/Button/V1)
+2025-04-10 03:23:15,921 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/application/json. No retries.
+2025-04-10 03:23:15,921 - funnel_analyzer_elite - INFO - Processed (12/100) ❌ [404] https://www.plrfunnels.com/application/json (1.06s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:16,650 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/application/x-www-form-urlencoded. No retries.
+2025-04-10 03:23:16,651 - funnel_analyzer_elite - INFO - Processed (13/100) ❌ [404] https://www.plrfunnels.com/application/x-www-form-urlencoded (1.61s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:16,875 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/checkoutproductimagecarousel/v1. No retries.
+2025-04-10 03:23:16,876 - funnel_analyzer_elite - INFO - Processed (14/100) ❌ [404] https://www.plrfunnels.com/checkoutproductimagecarousel/v1 (2.18s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/CheckoutProductImageCarousel/V1)
+2025-04-10 03:23:17,187 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/image/v2. No retries.
+2025-04-10 03:23:17,188 - funnel_analyzer_elite - INFO - Processed (15/100) ❌ [404] https://www.plrfunnels.com/image/v2 (1.81s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/Image/V2)
+2025-04-10 03:23:17,232 - funnel_analyzer_elite - INFO - Processed (16/100) ✅ [200] https://www.plrfunnels.com/cf_countries_states (1.38s) -> Unknown
+2025-04-10 03:23:18,353 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/ordercart/v1. No retries.
+2025-04-10 03:23:18,353 - funnel_analyzer_elite - INFO - Processed (17/100) ❌ [404] https://www.plrfunnels.com/ordercart/v1 (1.70s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/OrderCart/V1)
+2025-04-10 03:23:18,409 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/checkout/v1. No retries.
+2025-04-10 03:23:18,410 - funnel_analyzer_elite - INFO - Processed (18/100) ❌ [404] https://www.plrfunnels.com/checkout/v1 (2.49s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/Checkout/V1)
+2025-04-10 03:23:18,823 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/modal/v1. No retries.
+2025-04-10 03:23:18,823 - funnel_analyzer_elite - INFO - Processed (19/100) ❌ [404] https://www.plrfunnels.com/modal/v1 (1.94s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/Modal/V1)
+2025-04-10 03:23:18,986 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/checkout/v2. No retries.
+2025-04-10 03:23:18,987 - funnel_analyzer_elite - INFO - Processed (20/100) ❌ [404] https://www.plrfunnels.com/checkout/v2 (1.79s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/Checkout/V2)
+2025-04-10 03:23:19,101 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/accordion/v1. No retries.
+2025-04-10 03:23:19,101 - funnel_analyzer_elite - INFO - Processed (21/100) ❌ [404] https://www.plrfunnels.com/accordion/v1 (1.87s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/Accordion/V1)
+2025-04-10 03:23:19,973 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/thank-you.jsp. No retries.
+2025-04-10 03:23:19,973 - funnel_analyzer_elite - INFO - Processed (22/100) ❌ [404] https://www.plrfunnels.com/thank-you.jsp (0.98s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:20,028 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/visits. No retries.
+2025-04-10 03:23:20,029 - funnel_analyzer_elite - INFO - Processed (23/100) ❌ [404] https://www.plrfunnels.com/visits (1.62s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:20,136 - funnel_analyzer_elite - WARNING - Forbidden (403) for https://www.plrfunnels.com/thank-you.php. No retries.
+2025-04-10 03:23:20,137 - funnel_analyzer_elite - INFO - Processed (24/100) ❌ [403] https://www.plrfunnels.com/thank-you.php (1.03s) -> Error (Error: HTTP 403 Forbidden)
+2025-04-10 03:23:20,654 - funnel_analyzer_elite - WARNING - Forbidden (403) for https://www.plrfunnels.com/thank-you.aspx. No retries.
+2025-04-10 03:23:20,655 - funnel_analyzer_elite - INFO - Processed (25/100) ❌ [403] https://www.plrfunnels.com/thank-you.aspx (0.68s) -> Error (Error: HTTP 403 Forbidden)
+2025-04-10 03:23:20,969 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/video/v1. No retries.
+2025-04-10 03:23:20,970 - funnel_analyzer_elite - INFO - Processed (26/100) ❌ [404] https://www.plrfunnels.com/video/v1 (2.61s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/Video/V1)
+2025-04-10 03:23:21,130 - funnel_analyzer_elite - INFO - Redirected out of scope to: https://www.clickfunnels.com/thanks
+2025-04-10 03:23:21,130 - funnel_analyzer_elite - INFO - Processed (27/100) ❌ [302] https://www.clickfunnels.com/thanks (1.10s) -> Error (Error: Redirected out of scope to https://www.clickfunnels.com/thanks) (Redirected from: https://www.plrfunnels.com/thanks)
+2025-04-10 03:23:21,339 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/thank-you.html. No retries.
+2025-04-10 03:23:21,339 - funnel_analyzer_elite - INFO - Processed (28/100) ❌ [404] https://www.plrfunnels.com/thank-you.html (1.20s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:21,688 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/modalcontainer/v1. No retries.
+2025-04-10 03:23:21,688 - funnel_analyzer_elite - INFO - Processed (29/100) ❌ [404] https://www.plrfunnels.com/modalcontainer/v1 (2.86s) -> Error (Error: HTTP 404 Not Found) (Redirected from: https://www.plrfunnels.com/ModalContainer/V1)
+2025-04-10 03:23:22,133 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/oto.html. No retries.
+2025-04-10 03:23:22,133 - funnel_analyzer_elite - INFO - Processed (30/100) ❌ [404] https://www.plrfunnels.com/oto.html (1.48s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:22,180 - funnel_analyzer_elite - WARNING - Forbidden (403) for https://www.plrfunnels.com/oto.aspx. No retries.
+2025-04-10 03:23:22,181 - funnel_analyzer_elite - INFO - Processed (31/100) ❌ [403] https://www.plrfunnels.com/oto.aspx (0.49s) -> Error (Error: HTTP 403 Forbidden)
+2025-04-10 03:23:22,194 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/oto.jsp. No retries.
+2025-04-10 03:23:22,195 - funnel_analyzer_elite - INFO - Processed (32/100) ❌ [404] https://www.plrfunnels.com/oto.jsp (1.22s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:22,407 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/thanks.html. No retries.
+2025-04-10 03:23:22,407 - funnel_analyzer_elite - INFO - Processed (33/100) ❌ [404] https://www.plrfunnels.com/thanks.html (1.06s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:22,713 - funnel_analyzer_elite - INFO - Redirected out of scope to: https://www.clickfunnels.com/thank-you
+2025-04-10 03:23:22,713 - funnel_analyzer_elite - INFO - Processed (34/100) ❌ [302] https://www.clickfunnels.com/thank-you (1.58s) -> Error (Error: Redirected out of scope to https://www.clickfunnels.com/thank-you) (Redirected from: https://www.plrfunnels.com/thank-you)
+2025-04-10 03:23:23,201 - funnel_analyzer_elite - WARNING - Forbidden (403) for https://www.plrfunnels.com/oto.php. No retries.
+2025-04-10 03:23:23,201 - funnel_analyzer_elite - INFO - Processed (35/100) ❌ [403] https://www.plrfunnels.com/oto.php (1.01s) -> Error (Error: HTTP 403 Forbidden)
+2025-04-10 03:23:23,353 - funnel_analyzer_elite - WARNING - Forbidden (403) for https://www.plrfunnels.com/thanks.aspx. No retries.
+2025-04-10 03:23:23,354 - funnel_analyzer_elite - INFO - Processed (35/100) ❌ [403] https://www.plrfunnels.com/thanks.aspx (1.17s) -> Error (Error: HTTP 403 Forbidden)
+2025-04-10 03:23:23,473 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/thanks.jsp. No retries.
+2025-04-10 03:23:23,473 - funnel_analyzer_elite - INFO - Processed (35/100) ❌ [404] https://www.plrfunnels.com/thanks.jsp (1.06s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:23,584 - funnel_analyzer_elite - WARNING - Not Found (404) for https://www.plrfunnels.com/oto. No retries.
+2025-04-10 03:23:23,585 - funnel_analyzer_elite - INFO - Processed (35/100) ❌ [404] https://www.plrfunnels.com/oto (1.45s) -> Error (Error: HTTP 404 Not Found)
+2025-04-10 03:23:23,870 - funnel_analyzer_elite - WARNING - Forbidden (403) for https://www.plrfunnels.com/thanks.php. No retries.
+2025-04-10 03:23:23,871 - funnel_analyzer_elite - INFO - Processed (35/100) ❌ [403] https://www.plrfunnels.com/thanks.php (1.15s) -> Error (Error: HTTP 403 Forbidden)
+2025-04-10 03:23:25,821 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:26,324 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:28,328 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:28,830 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:30,832 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:31,333 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:33,336 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:33,837 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:35,839 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:36,341 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:38,345 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:38,846 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:40,850 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:41,352 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:43,356 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:43,858 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:45,861 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:46,363 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:48,366 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:48,868 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:50,870 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:51,372 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:53,375 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:53,876 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:55,878 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:56,380 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:23:58,384 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:23:58,886 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:24:00,890 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:24:01,392 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:24:03,395 - funnel_analyzer_elite - INFO - Queue empty and no tasks processing. Checking worker status...
+2025-04-10 03:24:03,895 - funnel_analyzer_elite - INFO - Queue empty, but 5 workers still active (possibly finishing final tasks). Waiting...
+2025-04-10 03:24:03,944 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Worker-1' coro=<WebsiteCrawler._worker() running at /Users/abdulhameedaltaweel/Documents/dominzy/dominz.py:1674> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-04-10 03:24:03,944 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Worker-2' coro=<WebsiteCrawler._worker() running at /Users/abdulhameedaltaweel/Documents/dominzy/dominz.py:1674> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-04-10 03:24:03,944 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Worker-3' coro=<WebsiteCrawler._worker() running at /Users/abdulhameedaltaweel/Documents/dominzy/dominz.py:1674> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-04-10 03:24:03,944 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Worker-4' coro=<WebsiteCrawler._worker() running at /Users/abdulhameedaltaweel/Documents/dominzy/dominz.py:1674> wait_for=<Future pending cb=[Task.task_wakeup()]>>
+2025-04-10 03:24:03,944 - asyncio - ERROR - Task was destroyed but it is pending!
+task: <Task pending name='Worker-5' coro=<WebsiteCrawler._worker() running at /Users/abdulhameedaltaweel/Documents/dominzy/dominz.py:1674> wait_for=<Future pending cb=[Task.task_wakeup()]>>
