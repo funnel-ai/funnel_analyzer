@@ -292,8 +292,8 @@ class CrawlerConfig(BaseModel):
              pass
         return url_str
 
-    # Store domain info as instance variable, not model field
-    _domain_info_cache: Optional[Dict[str, str]] = None
+    # Store domain info as a model field, but exclude from validation/serialization
+    _domain_info_cache: Optional[Dict[str, str]] = Field(default=None, exclude=True)
 
     # Use a method to get domain info, calculating only once
     def get_domain_info(self) -> Dict[str, str]:
