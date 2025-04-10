@@ -1,4 +1,3 @@
-
 """
 Streamlit Sales Funnel Structure Analyzer v3.0 - Elite Edition
 Advanced discovery techniques for finding linked and potentially unlinked funnel pages.
@@ -28,12 +27,15 @@ import aiohttp
 import tldextract
 from bs4 import BeautifulSoup, SoupStrainer
 try:
+    # Try importing Pydantic V2 components first
     from pydantic import BaseModel, HttpUrl, ValidationError, Field, field_validator, AnyHttpUrl
     PYDANTIC_V2 = True
 except ImportError:
+    # Fallback to Pydantic V1 if V2 is not available
     from pydantic import BaseModel, HttpUrl, ValidationError, Field, validator
     PYDANTIC_V2 = False
-    AnyHttpUrl = HttpUrl # Alias for compatibility
+    # Alias AnyHttpUrl to HttpUrl for compatibility in V1 context
+    AnyHttpUrl = HttpUrl
 from urllib.robotparser import RobotFileParser
 
 # Try importing lxml for faster parsing
@@ -205,17 +207,71 @@ class CrawlerConfig(BaseModel):
     analyze_javascript: bool = False
     max_guessed_urls_per_page: int = Field(default=10, ge=0) # Limit noise
 
+    # Helper method to ensure URL scheme (used by validators)
+    @classmethod
+    def _ensure_scheme(cls, url_str: str) -> str:
+        """Adds http:// scheme if missing."""
+        if isinstance(url_str, str):
+            url_str = url_str.strip()
+            if not url_str:
+                raise ValueError("URL cannot be empty")
+            # Simple check if scheme exists
+            if "://" not in url_str:
+                # Default to https for security
+                logger.debug(f"Adding https:// scheme to URL: {url_str}")
+                return 'https://' + url_str
+            # Check if scheme is http/https (allow others like ftp? maybe not needed)
+            if not url_str.lower().startswith(('http://', 'https://')):
+                 # Raise error for unsupported schemes if AnyHttpUrl validation won't catch it
+                 logger.warning(f"URL scheme is not http or https: {url_str}. Validation might fail.")
+                 # Or raise ValueError('URL scheme must be http or https')
+        return url_str # Return original if not string or already valid/handled
+
     # Pydantic v1/v2 compatibility for validation
     if PYDANTIC_V2:
-        @field_validator('start_url', 'manual_urls', mode='before')
-        def validate_urls(cls, v):
-            if isinstance(v, str): # Handle single start_url
-                return cls._ensure_scheme(v)
-            if isinstance(v, list): # Handle list of manual_urls
+        # Pydantic V2: Use field_validator
+        # It's often clearer to have separate validators per field
+        @field_validator('start_url', mode='before')
+        @classmethod
+        def validate_single_start_url_v2(cls, v):
+            # Logic specifically for start_url
+            return cls._ensure_scheme(v)
+
+        @field_validator('manual_urls', mode='before')
+        @classmethod
+        def validate_manual_urls_v2(cls, v):
+            # Logic specifically for manual_urls list
+            if isinstance(v, list):
                 return [cls._ensure_scheme(url) for url in v if isinstance(url, str)]
-            return v # Pass through if already correct type or not string/list
-    else: # Pydantic v1 validator
-        @validator('start_url', 'manual_urls', pre=True, each_item=True)
+            # Handle case where a single string might be passed mistakenly for manual_urls
+            elif isinstance(v, str):
+                 logger.warning("Manual URLs received a single string, wrapping in list.")
+                 return [cls._ensure_scheme(v)]
+            return v # Pass through other types
+
+    else:
+        # Pydantic V1: Use validator (with correct indentation)
+        @validator('start_url', pre=True, allow_reuse=True) # allow_reuse might be needed if name reused (though using different names is better)
+        @classmethod
+        def validate_single_start_url_v1(cls, v):
+            """Validator for the single start_url field (Pydantic V1)."""
+            # logger.debug(f"Validating start_url (V1): {v}") # Optional debug log
+            return cls._ensure_scheme(v)
+
+        @validator('manual_urls', pre=True, each_item=True, allow_reuse=True) # allow_reuse might be needed if name reused
+        @classmethod
+        def validate_each_manual_url_item_v1(cls, v):
+            """Validator for each item in the manual_urls list (Pydantic V1)."""
+            # logger.debug(f"Validating manual_url item (V1): {v}") # Optional debug log
+            # Since each_item=True, v is already a single item from the list
+            return cls._ensure_scheme(v)
+
+
+# --- Dataclasses for storing page information ---
+# (Keep the rest of your code below this point)
+# ... (Your existing dataclasses like PageInfo, CrawlResult, etc.) ...
+# ... (Your existing functions like fetch, parse_links, classify_page, etc.) ...
+# ... (Your Streamlit UI code) ...
         def validate_urls_v1(cls, v):
             if isinstance(v, str):
                 return cls._ensure_scheme(v)
