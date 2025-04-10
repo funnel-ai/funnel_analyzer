@@ -2419,13 +2419,29 @@ if start_button:
     if not url_to_analyze:
         validation_errors.append("Starting URL is required.")
     else:
-        try:
-            # Use the validator within the config model itself for consistency
-            # Need to temporarily create a config instance or just the validator logic
-            validated_start_url = CrawlerConfig._ensure_scheme(url_to_analyze) # Ensure scheme
+    try:
+        # Call the function to get the URL, ensuring the scheme is present
+        temp_url = CrawlerConfig._ensure_scheme(url_to_analyze)
+
+        # -->> Add check here <<--
+        if isinstance(temp_url, str):
+            # If the returned value is a string, proceed to validate it as a URL
+            validated_start_url = temp_url # Assign it back if needed, or use temp_url directly
             AnyHttpUrl(validated_start_url) # Pydantic validation
-        except (ValidationError, ValueError) as e:
-            validation_errors.append(f"Invalid Starting URL: {url_to_analyze}. Please enter a valid URL (e.g., https://example.com). Error: {e}")
+            # You can add any subsequent code that uses validated_start_url here
+        else:
+            # If it's not a string (it might be None or another type), raise an error
+            # This indicates that _ensure_scheme couldn't produce a valid string URL
+            raise ValueError(f"Could not process the input URL: '{url_to_analyze}'. The result after ensuring scheme was not a string (maybe None or invalid input?).")
+
+    except (ValidationError, ValueError) as e:
+        # Catch errors from Pydantic validation (ValidationError)
+        # or the ValueError raised above if the input wasn't a string
+        validation_errors.append(f"Invalid or unprocessable Starting URL: '{url_to_analyze}'. Please enter a valid URL (e.g., https://example.com). Error: {e}")
+    # Note: A TypeError should now be less likely to reach here because of the isinstance check,
+    # but you could add 'TypeError' to the except clause as an extra safeguard if desired.
+    # except TypeError as e:
+    #     validation_errors.append(f"A type error occurred unexpectedly while processing URL '{url_to_analyze}'. Error: {e}")
 
     for i, manual_url in enumerate(manual_urls_raw):
         manual_url = manual_url.strip()
