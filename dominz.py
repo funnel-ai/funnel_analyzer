@@ -2419,7 +2419,7 @@ if start_button:
     if not url_to_analyze:
         validation_errors.append("Starting URL is required.")
     else:
-    try:
+        try:
         # Call the function to get the URL, ensuring the scheme is present
         temp_url = CrawlerConfig._ensure_scheme(url_to_analyze)
 
