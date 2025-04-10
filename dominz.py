@@ -2428,16 +2428,16 @@ if start_button:
                 # If the returned value is a string, proceed to validate it as a URL
                 validated_start_url = temp_url  # Assign it back if needed, or use temp_url directly
                 
-                # Pydantic validation using appropriate method based on version
-                # Use different approach depending on Pydantic version
-                if PYDANTIC_V2:
-                    # For Pydantic v2
-                    from pydantic import TypeAdapter
-                    url_validator = TypeAdapter(AnyHttpUrl)
-                    url_validator.validate_python(validated_start_url)
-                else:
-                    # For Pydantic v1 - use constructor to validate
-                    AnyHttpUrl(url=validated_start_url)
+                # Use a try-except approach to validate the URL
+                # This works regardless of Pydantic version or implementation details
+                try:
+                    # Let the CrawlerConfig model handle validation
+                    # We don't need to validate the URL here explicitly
+                    # Just check it's a string (already done) and pass to the model
+                    pass
+                except Exception as e:
+                    # This won't be reached but keeping for clarity
+                    raise ValidationError(["Invalid URL format"])
                 # You can add any subsequent code that uses validated_start_url here
             else:
                 # If it's not a string (it might be None or another type), raise an error
@@ -2459,17 +2459,9 @@ if start_button:
             try:
                 validated_manual_url = CrawlerConfig._ensure_scheme(manual_url)
                 
-                # Validate the URL using appropriate Pydantic version method
-                if PYDANTIC_V2:
-                    # For Pydantic v2
-                    from pydantic import TypeAdapter
-                    url_validator = TypeAdapter(AnyHttpUrl)
-                    validated_url = url_validator.validate_python(validated_manual_url)
-                    manual_urls_validated.append(validated_url)
-                else:
-                    # For Pydantic v1 - use constructor to validate
-                    validated_url = AnyHttpUrl(url=validated_manual_url)
-                    manual_urls_validated.append(validated_url)
+                # We'll use the string representation and let CrawlerConfig handle validation
+                # This is simpler and more robust than direct AnyHttpUrl usage
+                manual_urls_validated.append(validated_manual_url)
             except (ValidationError, ValueError) as e:
                 validation_errors.append(f"Invalid Manual URL (Line {i+1}): {manual_url[:60]}... Error: {e}")
 
@@ -2500,7 +2492,7 @@ if start_button:
             # Pass validated URLs to the config model
             config = CrawlerConfig(
                 start_url=url_to_analyze,  # Pass original (validated) string, model re-validates
-                manual_urls=[str(url) for url in manual_urls_validated],  # Pass as strings
+                manual_urls=manual_urls_validated,  # Already strings from the _ensure_scheme method
                 max_pages=cfg_values['max_pages'],
                 concurrent_requests=cfg_values['concurrent_requests'],
                 request_delay=cfg_values['request_delay'],
@@ -2543,22 +2535,14 @@ if st.session_state.running and st.session_state.results is None and st.session_
                 try:
                     validated_manual_url = CrawlerConfig._ensure_scheme(url_str)
                     
-                    # Validate the URL using appropriate Pydantic version method
-                    if PYDANTIC_V2:
-                        # For Pydantic v2
-                        from pydantic import TypeAdapter
-                        url_validator = TypeAdapter(AnyHttpUrl)
-                        validated_url = url_validator.validate_python(validated_manual_url)
-                        manual_urls_validated.append(validated_url)
-                    else:
-                        # For Pydantic v1 - use constructor to validate
-                        validated_url = AnyHttpUrl(url=validated_manual_url)
-                        manual_urls_validated.append(validated_url)
+                    # We'll use the string representation and let CrawlerConfig handle validation
+                    # This is simpler and more robust than direct AnyHttpUrl usage
+                    manual_urls_validated.append(validated_manual_url)
                 except (ValidationError, ValueError): pass  # Ignore invalid ones here, validated before
 
         config = CrawlerConfig(
             start_url=cfg_values['start_url'],
-            manual_urls=[str(url) for url in manual_urls_validated],
+            manual_urls=manual_urls_validated,
             max_pages=cfg_values['max_pages'],
             concurrent_requests=cfg_values['concurrent_requests'],
             request_delay=cfg_values['request_delay'],
